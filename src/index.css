@@ -4,8 +4,11 @@
 
 html {
   font-family: sans-serif;
+  background-color: #ccc;
 }
 
 body {
   margin: 0;
+  background-color: #ccc;
+
 }
