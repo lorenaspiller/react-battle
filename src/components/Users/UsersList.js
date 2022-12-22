@@ -6,10 +6,11 @@ import classes from './UsersList.module.css';
 const UsersList = props => {
     console.log(props.name, props.age);
     return(
+
         <Card className={classes.users}>
             <ul>
                 {props.users.map((user) => (
-                    <li>
+                    <li key={user.id}>
                         {user.name} {user.age} years old
                     </li>
                 ))}
