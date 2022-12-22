@@ -1,18 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+
+import classes from "./Card.module.css";
 
 
 const Card = props => {
-    return(
-        <StyledCard>
-            {props.children}
-        </StyledCard>
+    return (
+      <div className={`${classes.card} ${props.className}`}>
+        {props.children}
+      </div>
     );
 };
 
 export default Card;
 
-const StyledCard = styled.div`
+/* const StyledCard = styled.div`
     max-width: 768px;
     margin: 0 auto;
     border-radius: 10px;
@@ -44,4 +46,4 @@ const StyledCard = styled.div`
     outline: none;
     border-color: #4f005f;
   }
-`;
+`; */

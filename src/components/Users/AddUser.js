@@ -1,19 +1,62 @@
 import React, {useState} from 'react';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import Card from '../UI/Card';
 import Button from '../UI/Button';
+import ErrorModal from '../UI/ErrorModal';
 
-import classes from '../UI/Button.module.css';
+import classes from './AddUser.module.css';
+// import classes from '../UI/Button.module.css';
 
 
 const AddUser = props => {
     const [enteredUsername, setEnteredUsername] = useState('');
     const [enteredAge, setEnteredAge] = useState('');
+    /* const [usernameError, setUsernameError] = useState(false);
+    const [ageError, setAgeError] = useState(false); */
+    const [error, setError] = useState();
 
     const addUserHandler = (event) => {
         event.preventDefault();
+        /* setUsernameError(false);
+        setAgeError(false); */
+        
+        /* VALIDATION */
+        if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+            setError({
+                title: 'Invalid input',
+                message: 'Please enter a valid name and age (non-empty values)'
+            });
+            return
+        }
+
+        /* if (enteredUsername.trim().length === 0) {
+            console.log("the entered values are not valid");
+            setUsernameError(true);
+            if (enteredAge.trim().length === 0) {
+                console.log("the entered values are not valid");
+                setAgeError(true);
+            }
+            return;
+        } */
+
+        /* if (enteredAge.trim().length === 0) {
+            console.log('the entered values are not valid');
+            setAgeError(true);
+            return
+        } */
+        
+        if (+enteredAge < 1) { //adding a + to make sure to convert the string to a number to be compared
+            console.log('the value of the age must be more than 1');
+            setError({
+              title: "Invalid input",
+              message: "The value of the age must be more than 1!"
+            });
+            // setAgeError(true);
+            return
+        }
         /* after I press submit i console log the submitted inputs */
         console.log(enteredUsername, enteredAge);
+        props.onAddUser(enteredUsername, enteredAge);
         /* resetting the username and the age after I submitted the data */
         setEnteredUsername('');
         setEnteredAge('');
@@ -31,18 +74,44 @@ const AddUser = props => {
         // console.log(event.target.value);
     }
 
+    const confirmHandler = () => {
+        setError(null);
+    }
+
+
     return(
-        <Card className="d-flex justify-content-center align-items-center">
+        <>
+        {error && <ErrorModal title={error.title} message={error.message} onConfirm={confirmHandler}/>}
+        <Card className={classes.input}>
             <form onSubmit={addUserHandler} className="d-flex flex-column p-5">
                 <label htmlFor="username">Username</label>
-                <input id="username" type="text" onChange={usernameChangeHandler} value={enteredUsername} />
+                <input 
+                    id="username" 
+                    type="text" 
+                    onChange={usernameChangeHandler} 
+                    value={enteredUsername} 
+                />
+                {/* {usernameError && <StyledAlertMessage className='error'>Type a valid username</StyledAlertMessage>} */}
                 <label htmlFor="age">Age (Years)</label>
-                <input id="age" type="number" onChange={ageChangeHandler} value={enteredAge} />
+                <input 
+                    id="age" 
+                    type="number" 
+                    onChange={ageChangeHandler} 
+                    value={enteredAge} 
+                />
+                {/* {ageError && <StyledAlertMessage className='error'>Type a valid Age</StyledAlertMessage>} */}
                 <Button className={classes.button} type="submit">Add User</Button>
             </form>
         </Card>
+        </>
     );
 
 };
 
 export default AddUser;
+
+/* const StyledAlertMessage = styled.span`
+    padding: 5px;
+    color: red;
+    background-color: rgb(255,160,122);
+`; */
